@@ -1,0 +1,46 @@
+{% extends 'produse/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Introduceti produsele aici</h2>
+    <table class="table">
+        <thead>
+               <tr>
+                 <th>PRODUS</th>
+                 <th>STATUS</th>
+                 <th>STERGE</th>
+                </tr>
+        </thead>
+           <tbody>
+               {% if products %}
+                   {% for products in products%}
+                        {% if products.cumparat %}
+                            <tr class = "table-success">
+                                <td class="linethrough"> {{products.product}}</td>
+                                <td><a href="{% url 'change_status' products.id%}">Renunta</a></td>
+                                <td><a href="{% url 'delete' products.id %}">Delete</a></td>
+                            </tr>
+                        {% else %}
+                             <tr class = " table-secondary">
+                                <td> {{products.product}}</td>
+                                <td><a href="{% url 'change_status' products.id%}">Cumpara</a></td>
+                                <td><a href="{% url 'delete' products.id %}">Delete</a></td>
+                             </tr>
+                        {%endif%}
+                    {%endfor%}
+                {%endif%}
+           </tbody>
+    </table>
+<form method="POST">
+    {%csrf_token%}
+    {{form.as_p}}
+<!--  <div class="mb-3">-->
+<!--    <label class="form-label">Produs</label>-->
+<!--    <input type="text" class="form-control">-->
+<!--  </div>-->
+  <button type="submit" class="btn btn-dark">Submit</button>
+</form>
+
+</div>
+
+{% endblock %}
